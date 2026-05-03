@@ -1,0 +1,23 @@
+# 入魂一番赏 - gitignore
+
+# Output files (screenshots, XML dumps)
+output/
+scripts/output/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Data
+data/raw/
+
+# OS
+Thumbs.db
+.DS_Store
