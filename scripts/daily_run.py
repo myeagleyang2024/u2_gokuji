@@ -55,21 +55,17 @@ def click_tab(d: u2.Device, tab_name: str):
 def enter_irhunshang(d: u2.Device):
     """从首页点击「入魂赏」链接，进入入魂赏商品列表"""
     log("=== 进入入魂赏 ===")
-    
-    # 入魂赏标题位置: 首页中部 y≈1063-1138, x≈41-288
-    irhunshang_link_cx = 165
-    irhunshang_link_cy = 1100
-    
-    tap(irhunshang_link_cx, irhunshang_link_cy)
-    time.sleep(5)
-    
-    xml = save_state(d, "irhunshang_list")
-    
-    # 确认页面已加载（检测是否有分类标签）
-    category_count = len(re.findall(r'\u7b2c\d+/\d+ \u8d5a', xml))  # "第X/12 赞"
-    log(f"入魂赏页面: 分类tab数 ≈ {category_count}")
-    
-    return xml
+    time.sleep(3)
+    swipe(450, 1200, 450, 400, 400)
+    time.sleep(3)
+    # 方式1: 用 xpath 找元素（存在则点击）
+    # clicked = d.xpath('//*[@resource-id="android:id/content"]/android.widget.FrameLayout[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.widget.ImageView[6]').click_exists(timeout=5)
+    clicked = d.xpath('//*[@resource-id="android:id/content"]/android.widget.FrameLayout[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.widget.ImageView[7]').click_exists(timeout=5)
+    if not clicked:
+        log("⚠️ xpath 未找到入口，使用坐标点击(165, 1100)")
+        tap(41, 1580)
+
+
 
 
 def scroll_and_capture(d: u2.Device, scroll_count: int = 3):
@@ -118,13 +114,13 @@ def run():
     scroll_and_capture(d, scroll_count=2)
     
     # 4. 返回首页
-    keyevent("BACK")
-    time.sleep(3)
-    click_tab(d, "home")
-    
-    d.app_stop(PACKAGE_NAME)
-    log("=== DONE ===")
+    # keyevent("BACK")
+    # time.sleep(3)
+    # click_tab(d, "home")
 
+    # d.app_stop(PACKAGE_NAME)
+    log("=== DONE ===")
+    input("Press Enter to exit...")
 
 if __name__ == "__main__":
     run()
